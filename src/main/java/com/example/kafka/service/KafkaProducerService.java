@@ -2,10 +2,8 @@ package com.example.kafka.service;
 
 import com.example.kafka.Message;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public class KafkaProducerService {
@@ -16,19 +14,25 @@ public class KafkaProducerService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessages() {
-        for (int i = 1; i <= 100; i++) {
-            Message msg = new Message(i, "Mensaje #" + i);
+    public void sendMessagesTransactional() {
+        kafkaTemplate.executeInTransaction(operations -> {
+            for (int i = 1; i <= 100; i++) {
+                Message msg = new Message(i, "Mensaje #" + i);
+                operations.send("test-topic", String.valueOf(msg.getId()), msg);
+                System.out.println("Enviando: " + msg);
 
-            CompletableFuture<SendResult<String, Message>> future =
-                    kafkaTemplate.send("test-topic", String.valueOf(msg.getId()), msg);
+                if (i == 50) {
+                    throw new RuntimeException("Error simulado en el mensaje 50");
+                }
+            }
+            return true;
+        });
+    }
 
-            // Callback usando thenAccept / exceptionally
-            future.thenAccept(result -> System.out.println("Enviado: " + msg))
-                    .exceptionally(ex -> {
-                        System.err.println("Error al enviar: " + msg + " - " + ex.getMessage());
-                        return null;
-                    });
-        }
+    public void sendOneTransactional(Message msg) {
+        kafkaTemplate.executeInTransaction(ops -> {
+            ops.send("test-topic", String.valueOf(msg.getId()), msg);
+            return null;
+        });
     }
 }

@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "Balance",
+  "namespace": "com.example.kafka",
+  "fields": [
+    {"name": "userId", "type": "string"},
+    {"name": "balance", "type": "double"}
+  ]
+}

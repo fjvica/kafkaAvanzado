@@ -15,6 +15,6 @@ public class KafkaRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        producer.sendMessages();
+        producer.sendMessagesTransactional();
     }
 }

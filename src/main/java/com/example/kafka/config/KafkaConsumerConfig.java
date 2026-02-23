@@ -1,5 +1,6 @@
 package com.example.kafka.config;
 
+import com.example.kafka.Message;
 import org.apache.kafka.common.TopicPartition;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -12,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class KafkaConsumerConfig {
 
     @Bean
-    public DefaultErrorHandler errorHandler(KafkaTemplate<Object, Object> kafkaTemplate) {
+    public DefaultErrorHandler errorHandler(KafkaTemplate<String, Message> kafkaTemplate) {
 
         // DeadLetterPublishingRecoverer que apunta a topic-dlt
         DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(kafkaTemplate,

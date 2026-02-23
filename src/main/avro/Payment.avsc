@@ -1,0 +1,10 @@
+{
+  "type": "record",
+  "name": "Payment",
+  "namespace": "com.example.kafka",
+  "fields": [
+    {"name": "paymentId", "type": "int"},
+    {"name": "userId", "type": "string"},
+    {"name": "amount", "type": "double"}
+  ]
+}

@@ -1,76 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.6</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
+
 	<groupId>com.example</groupId>
 	<artifactId>kafka</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>kafka</name>
 	<description>Demo project for Spring Boot</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+
 	<properties>
-		<java.version>17</java.version> <!-- compatible con Spring Boot 3 -->
+		<java.version>17</java.version>
+		<spring-kafka.version>3.0.12</spring-kafka.version>
+		<kafka.version>3.6.2</kafka.version>
+		<confluent.version>7.6.1</confluent.version>
+		<avro.version>1.11.1</avro.version>
 	</properties>
+
 	<repositories>
-		<!-- No apuntes todo a Confluent -->
 		<repository>
 			<id>central</id>
 			<url>https://repo.maven.apache.org/maven2/</url>
 		</repository>
-
-		<!-- Solo para paquetes Confluent -->
 		<repository>
 			<id>confluent</id>
 			<url>https://packages.confluent.io/maven/</url>
 		</repository>
 	</repositories>
+
 	<dependencies>
-		<!-- Spring Boot starter -->
+		<!-- Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 		<!-- Spring Kafka -->
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
-			<version>3.0.12</version> <!-- versión compatible con Spring Boot 3 -->
+			<version>${spring-kafka.version}</version>
 		</dependency>
 
-		<!-- Avro desde Maven Central -->
+		<!-- Kafka Streams -->
 		<dependency>
-			<groupId>org.apache.avro</groupId>
-			<artifactId>avro</artifactId>
-			<version>1.11.1</version>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka-streams</artifactId>
+			<version>${kafka.version}</version>
+		</dependency>
+
+		<!-- Confluent Avro Serdes -->
+		<dependency>
+			<groupId>io.confluent</groupId>
+			<artifactId>kafka-streams-avro-serde</artifactId>
+			<version>${confluent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.confluent</groupId>
 			<artifactId>kafka-avro-serializer</artifactId>
-			<version>7.6.1</version>
+			<version>${confluent.version}</version>
+		</dependency>
+
+		<!-- Avro -->
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>${avro.version}</version>
 		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+			<!-- Compiler Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -83,6 +98,8 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+
+			<!-- Spring Boot Plugin -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -98,10 +115,12 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<!-- Avro Plugin -->
 			<plugin>
 				<groupId>org.apache.avro</groupId>
 				<artifactId>avro-maven-plugin</artifactId>
-				<version>1.11.1</version>
+				<version>${avro.version}</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
