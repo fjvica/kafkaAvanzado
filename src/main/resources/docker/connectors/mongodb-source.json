@@ -1,0 +1,16 @@
+{
+  "name": "mongo-source-connector",
+  "config": {
+    "connector.class": "com.mongodb.kafka.connect.MongoSourceConnector",
+    "tasks.max": "1",
+    "topic.prefix": "mongo",
+    "connection.uri": "mongodb://mongodb:27017/?replicaSet=rs0",
+    "database": "testdb",
+    "collection": "users",
+    "startup.mode": "copy_existing",
+    "publish.full.document.only": "true",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081"
+  }
+}
